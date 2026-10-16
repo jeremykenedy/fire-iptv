@@ -45,7 +45,7 @@ opens Discover. In-app updates use this repository's signed releases.
 ### Verification and limitations
 
 The native app was installed and exercised on a physical 32-bit Fire TV,
-including first launch, guide data and CBS Sports playback. The release APK
+including first launch, guide data, sports filtering, search, provider setup, Tubi/Plex shortcuts and CBS Sports playback. An in-place signed update preserved the profile, sources and a saved channel favorite. Dart analysis and 265 tests passed, and CI compiled both ARM targets. The release APK
 also compiles 64-bit ARM; that hardware is not physically tested. Catalog
 counts describe the bundled snapshot. Stream availability and guide coverage
 vary. No movie or series library is bundled, and proprietary app catalogs are

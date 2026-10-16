@@ -144,6 +144,11 @@ Captured from the native application on a physical Fire TV. The starter has live
     <td><a href="art/screenshots/provider-tv.png"><img src="art/screenshots/provider-tv.png" alt="Provider setup with M3U and Xtream Codes options" width="320"></a></td>
     <td><a href="art/screenshots/settings-tv.png"><img src="art/screenshots/settings-tv.png" alt="Settings for playlists, profiles and the TV experience" width="320"></a></td>
   </tr>
+  <tr>
+    <td><a href="art/screenshots/movies-tv.png"><img src="art/screenshots/movies-tv.png" alt="Movie library setup with a direct Add provider action" width="320"></a></td>
+    <td><a href="art/screenshots/series-tv.png"><img src="art/screenshots/series-tv.png" alt="TV series library setup explaining seasons and episodes" width="320"></a></td>
+    <td></td>
+  </tr>
 </table>
 
 ## Upstream
