@@ -56,23 +56,7 @@ The published APK targets Android TVs. The separate [Fire TV Toolkit desktop app
 
 For a source build, use Flutter 3.47.7, Android compile SDK 36, and Java 17 or Android Studio JBR 21. The [development guide](docs/development.md#toolchain) lists the NDK, CMake and Gradle versions.
 
-Required runtime packages are declared in [pubspec.yaml](pubspec.yaml). They are installed by `flutter pub get` when building from source; APK users do not install them separately.
-
-| Packages | Purpose |
-| --- | --- |
-| `flutter` | Native application interface |
-| `flutter_riverpod`, `riverpod_annotation` | Application state and providers |
-| `drift`, `sqlite3`, `sqlcipher_flutter_libs` | Catalog database and SQLCipher support |
-| `path_provider`, `path` | Application storage paths |
-| `go_router` | Screen navigation |
-| `http`, `xml` | Provider requests and XMLTV parsing |
-| `cached_network_image` | Cached channel logos and library artwork |
-| `encrypt`, `crypto`, `flutter_secure_storage` | Encrypted backups, checksums and secure credential storage |
-| `archive` | Backup archives |
-| `audio_service`, `engine_hooks` | Background media and native engine channels |
-| `file_picker`, `share_plus` | Playlist files and backup import/export |
-| `package_info_plus`, `uuid`, `shared_preferences` | Application metadata, identifiers and preferences |
-| `workmanager`, `flutter_local_notifications`, `permission_handler` | Background refreshes, notifications and Android permissions |
+APK downloads include the application dependencies. Source contributors can find the [runtime package reference](docs/development.md#runtime-packages) in the development guide.
 
 ## Installation
 
@@ -221,7 +205,7 @@ pubspec.yaml       Application version and dependency declarations
 | --- | --- |
 | [Documentation index](docs/index.md) | Every maintained guide and the inherited upstream references |
 | [Catalog and providers](docs/catalog.md) | Starter sources, XMLTV matching, provider setup, OwnTV and snapshot maintenance |
-| [Development](docs/development.md) | Toolchain, checks, architecture and signed release builds |
+| [Development](docs/development.md) | Toolchain, runtime packages, checks, architecture and signed release builds |
 
 ## Screenshots
 
