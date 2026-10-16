@@ -118,7 +118,7 @@ void main() {
     tearDown(() => db.close());
 
     Future<Source> managedSource() async {
-      final url = await store.save('fire-iptv-live', _playlist);
+      final url = await store.save('fire-iptv-live-2026.10.16.1', _playlist);
       final source = Source(id: 'fire-iptv-live', nickname: 'Free live TV',
           type: SourceType.m3u, m3uUrl: url);
       await db.upsertSource(source);
@@ -131,6 +131,22 @@ void main() {
           () => MockClient((_) async => http.Response('Unavailable', 503)));
       expect((await db.getAllChannels()).single.name, 'Channel One');
       expect(await store.read(source.m3uUrl!), _playlist);
+    });
+
+    test('a starter replaced with an owner file never downloads over it', () async {
+      final url = await store.save('fire-iptv-live', _playlist);
+      final source = Source(id: 'fire-iptv-live', nickname: 'My replacement',
+          type: SourceType.m3u, m3uUrl: url);
+      await db.upsertSource(source);
+      var requests = 0;
+      await http.runWithClient(() => manager.refreshPlaylist(source),
+          () => MockClient((_) async {
+            requests++;
+            return http.Response(_playlist.replaceAll('Channel One', 'Wrong channel'), 200);
+          }));
+      expect(requests, 0);
+      expect((await db.getAllChannels()).single.name, 'Channel One');
+      expect(await store.read(url), _playlist);
     });
 
     test('a managed refresh saves valid live TV and ignores an on-demand feed', () async {

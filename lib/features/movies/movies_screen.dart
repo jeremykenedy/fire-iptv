@@ -183,6 +183,18 @@ class _MoviesScreenState extends ConsumerState<MoviesScreen> {
           onRetry: () => _refreshMovies(context, ref),
         ),
         data: (all) {
+          if (all.isEmpty) {
+            final admin = profile?.isAdmin == true;
+            return EmptyStateView(
+              icon: Icons.movie_outlined,
+              title: 'Your movie library starts here',
+              message: admin
+                  ? 'Add a provider with on-demand movies to browse posters, genres and new releases. The starter supplies live TV.'
+                  : 'This source has no movies. Ask your profile administrator to add a movie provider.',
+              actionLabel: admin ? 'Add provider' : null,
+              onAction: admin ? () => context.push('/onboarding') : null,
+            );
+          }
           final isKid = profile?.isKidsProfile ?? false;
           final inProgress = (inProgressAsync.valueOrNull ?? [])
               .where((m) => !isKid || !isAdultGenre(m.genre))

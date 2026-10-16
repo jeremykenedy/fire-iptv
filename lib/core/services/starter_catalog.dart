@@ -16,6 +16,15 @@ const managedCatalogUrls = {
       'https://raw.githubusercontent.com/jeremykenedy/fire-iptv/main/assets/catalog/samsung.m3u',
 };
 
+String? managedCatalogUrl(String sourceId, String? localUrl) {
+  final uri = Uri.tryParse(localUrl ?? '');
+  if (uri?.scheme != 'file' ||
+      !(uri?.pathSegments.lastOrNull?.startsWith('$sourceId-') ?? false)) {
+    return null;
+  }
+  return managedCatalogUrls[sourceId];
+}
+
 /// Installs bundled catalogs as one transaction, without importing anyone's
 /// account, replacing an existing profile, or requiring an internet connection.
 class StarterCatalog {
@@ -63,10 +72,8 @@ class StarterCatalog {
       final previous = existing.where((s) => s.id == id).firstOrNull;
       if (!firstInstall && previous == null) continue;
       if (previous != null) {
-        final uri = Uri.tryParse(previous.m3uUrl ?? '');
         if (previous.type != SourceType.m3u ||
-            uri?.scheme != 'file' ||
-            !(uri?.pathSegments.lastOrNull?.startsWith('$id-') ?? false)) {
+            managedCatalogUrl(id, previous.m3uUrl) == null) {
           continue;
         }
       }

@@ -3,7 +3,9 @@ name: Tests
 on:
   push:
     branches: [main]
+    paths-ignore: ['**/*.md', 'art/**', 'docs/**']
   pull_request:
+    paths-ignore: ['**/*.md', 'art/**', 'docs/**']
 
 permissions:
   contents: read

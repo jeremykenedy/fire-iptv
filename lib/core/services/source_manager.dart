@@ -544,7 +544,7 @@ class SourceManager {
   }) async {
     if (LocalPlaylists.isLocal(url)) {
       var content = await _local.read(url);
-      final managedUrl = managedCatalogUrls[sourceId];
+      final managedUrl = managedCatalogUrl(sourceId, url);
       if (managedUrl != null) {
         try {
           final response = await http

@@ -182,6 +182,18 @@ class _SeriesScreenState extends ConsumerState<SeriesScreen> {
           onRetry: () => _refreshSeries(context, ref),
         ),
         data: (all) {
+          if (all.isEmpty) {
+            final admin = profile?.isAdmin == true;
+            return EmptyStateView(
+              icon: Icons.video_library_outlined,
+              title: 'Your show library starts here',
+              message: admin
+                  ? 'Add a provider with TV series to browse show posters, seasons and episodes. The starter supplies live TV.'
+                  : 'This source has no series. Ask your profile administrator to add a series provider.',
+              actionLabel: admin ? 'Add provider' : null,
+              onAction: admin ? () => context.push('/onboarding') : null,
+            );
+          }
           final isKid = profile?.isKidsProfile ?? false;
           final favIdSet = (profile?.favoriteSeriesIds ?? []).toSet();
           final favorites = all
