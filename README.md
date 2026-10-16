@@ -160,4 +160,4 @@ fire-iptv is based on [OpenIPTV](https://github.com/Hunter-Clipper/OpenIPTV) v0.
 
 ## License
 
-This application is open-sourced software licensed under [GPL-3.0](LICENSE). Google Sans is distributed under the [SIL Open Font License](assets/fonts/google_sans/OFL.txt). Native dependency notices are in [THIRD_PARTY_NATIVE.md](docs/THIRD_PARTY_NATIVE.md).
+This application is open-sourced software licensed under [GPL-3.0](LICENSE).
