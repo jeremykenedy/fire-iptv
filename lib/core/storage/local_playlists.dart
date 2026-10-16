@@ -63,6 +63,18 @@ class LocalPlaylists {
     return file.readAsString();
   }
 
+  /// Keep the last working managed catalog if a download or write fails.
+  Future<void> replace(String url, String content) async {
+    final target = File.fromUri(Uri.parse(url));
+    final temporary = File('${target.path}.tmp');
+    try {
+      await temporary.writeAsString(content, flush: true);
+      await temporary.rename(target.path);
+    } finally {
+      if (await temporary.exists()) await temporary.delete();
+    }
+  }
+
   /// Removes the saved copy, if any. Safe to call for any URL.
   Future<void> delete(String? url) async {
     if (!isLocal(url)) return;

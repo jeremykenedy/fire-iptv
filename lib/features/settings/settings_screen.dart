@@ -52,7 +52,7 @@ class SettingsScreen extends ConsumerWidget {
               InfoTooltip(
                 id: 'settings_profile',
                 title: 'Profile',
-                body: 'OpenIPTV supports multiple profiles on one device. '
+                body: 'fire-iptv supports multiple profiles on one device. '
                     'Each profile has its own watch history, favorites, hidden '
                     'categories, and PIN lock. Tap to manage profiles.',
                 child: _NavTile(
@@ -218,7 +218,7 @@ class SettingsScreen extends ConsumerWidget {
               InfoTooltip(
                 id: 'settings_continue_watching',
                 title: 'Continue Watching',
-                body: 'When this is on, OpenIPTV remembers where you left off '
+                body: 'When this is on, fire-iptv remembers where you left off '
                     'in movies and series. The next time you open them, '
                     "you'll be offered the option to resume.",
                 child: _ToggleTile(
@@ -361,7 +361,7 @@ class SettingsScreen extends ConsumerWidget {
             SettingsGroup(title: 'About', children: [
               InfoTooltip(
                 id: 'settings_about',
-                title: 'About OpenIPTV',
+                title: 'About fire-iptv',
                 body: 'Shows the current app version and license information. '
                     'OpenIPTV is open-source under the GPL-3.0 license — '
                     'no ads, no telemetry, no accounts. Ever.',
@@ -370,10 +370,10 @@ class SettingsScreen extends ConsumerWidget {
                   builder: (context, snap) {
                     final version = snap.hasData
                         ? 'Version ${snap.data!.version}'
-                        : 'OpenIPTV';
+                        : 'fire-iptv';
                     return _NavTile(
                       leading: const Icon(Icons.info_outline),
-                      title: 'About OpenIPTV',
+                      title: 'About fire-iptv',
                       subtitle: Text(version, style: theme.textTheme.bodySmall),
                       showChevron: false,
                       onTap: () => _showAboutDialog(context, snap.data),
@@ -384,7 +384,7 @@ class SettingsScreen extends ConsumerWidget {
               InfoTooltip(
                 id: 'settings_check_updates',
                 title: 'Check for Updates',
-                body: 'Looks for a newer version of OpenIPTV on GitHub and, if '
+                body: 'Looks for a newer version of fire-iptv on GitHub and, if '
                     'there is one, shows what changed and installs it. Only '
                     'the public release page is contacted — nothing about you '
                     'or your device is sent.',
@@ -399,7 +399,7 @@ class SettingsScreen extends ConsumerWidget {
               InfoTooltip(
                 id: 'settings_auto_update',
                 title: 'Check Automatically',
-                body: 'When on, OpenIPTV checks for a new version every time '
+                body: 'When on, fire-iptv checks for a new version every time '
                     'it starts, and lets admin profiles know. Turn off to '
                     'only check from this menu.',
                 child: Consumer(builder: (context, ref, _) {
@@ -556,7 +556,7 @@ class SettingsScreen extends ConsumerWidget {
     final wantsNotifications = await _askPermission(
       context,
       title: 'Stay Informed',
-      body: 'Allow notifications so OpenIPTV can let you know when a '
+      body: 'Allow notifications so fire-iptv can let you know when a '
           'background refresh finishes or runs into a problem?',
       confirmLabel: 'Allow',
     );
@@ -569,7 +569,7 @@ class SettingsScreen extends ConsumerWidget {
       context,
       title: 'Reliable Background Refresh',
       body: 'Some phones aggressively limit background apps to save '
-          'battery, which can delay auto-refresh. Exempting OpenIPTV '
+          'battery, which can delay auto-refresh. Exempting fire-iptv '
           'from battery optimization makes refreshes more reliable.',
       confirmLabel: 'Continue',
     );
@@ -686,7 +686,7 @@ class SettingsScreen extends ConsumerWidget {
   void _showAboutDialog(BuildContext context, PackageInfo? info) {
     showAboutDialog(
       context: context,
-      applicationName: 'OpenIPTV',
+      applicationName: 'fire-iptv',
       applicationVersion: info != null ? info.version : '',
       applicationLegalese:
           '© 2026 OpenIPTV contributors. Licensed under GPL-3.0.',

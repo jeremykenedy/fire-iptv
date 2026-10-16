@@ -47,6 +47,32 @@ class MainActivity : AudioServiceActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "fireiptv/streaming-apps")
+            .setMethodCallHandler { call, result ->
+                if (call.method != "open") {
+                    result.notImplemented()
+                } else {
+                    val target = when (call.arguments as? String) {
+                        "tubi" -> "com.tubitv.ott"
+                        "plex" -> "com.plexapp.android"
+                        else -> null
+                    }
+                    if (target == null) {
+                        result.error("unknown_app", "Unknown streaming app", null)
+                    } else {
+                        try {
+                            val launch = packageManager.getLeanbackLaunchIntentForPackage(target)
+                                ?: packageManager.getLaunchIntentForPackage(target)
+                                ?: Intent(Intent.ACTION_VIEW,
+                                    android.net.Uri.parse("amzn://apps/android?p=$target"))
+                            startActivity(launch)
+                            result.success(null)
+                        } catch (e: Exception) {
+                            result.error("launch_failed", "Could not open streaming app", null)
+                        }
+                    }
+                }
+            }
         pipChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "openiptv/pip")
         pipChannel?.setMethodCallHandler { call, result ->
             when (call.method) {

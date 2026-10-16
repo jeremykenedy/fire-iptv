@@ -1,35 +1,26 @@
-# OpenIPTV brand
+# fire-iptv native artwork
 
-Source artwork for the app icon, splash screen, Android TV banner and in-app
-logo ("Open Ring": a gradient ring left open at the top — the O of Open —
-around a play button).
+The native app uses navy `#101C30`, amber `#FFB54A` and white, with a TV/play
+mark. These assets are application icons, splash artwork and a TV launcher
+banner. They are separate from any optional repository README banner.
 
-- Brand gradient: `#8B5CF6` (violet) → `#3B82F6` (blue) → `#22D3EE` (cyan)
-- Ink background: `#0A0A12` (tile glow from `#1E1B36`)
-- Wordmark: "Open" in Google Sans Medium + "IPTV" in Google Sans Bold with the
-  gradient.
-
-| File | Use |
+| File | Purpose |
 | --- | --- |
-| `icon.svg` | full-bleed app icon (the OS rounds the corners) |
-| `icon_tile.svg` | rounded tile, for marketing/README |
-| `mark.svg` | mark on transparent, with glow (adaptive icon foreground, in-app logo, splash) |
-| `mark_mono.svg` | single-colour mark (themed/monochrome icon, notification icon) |
-| `wordmark.svg` | "OpenIPTV" wordmark |
-| `tv_banner.svg` | Android TV / Fire TV launcher banner |
-| `readme_banner.svg` | the banner at the top of the GitHub README |
+| `icon.svg` | Full app icon |
+| `icon_background.svg` | Adaptive icon background |
+| `mark.svg` | Adaptive foreground, splash and in-app mark |
+| `mark_mono.svg` | Monochrome icon |
+| `wordmark.svg` | fire-iptv wordmark |
+| `tv_banner.svg` | Android TV launcher banner |
 
-Run  (needs Firefox, Pillow, numpy) to
-re-export everything below after editing an SVG.
+Install librsvg, then export and regenerate Android icons and splash assets:
 
-Run `python3 assets/branding/export.py` (needs Firefox, Pillow and numpy) to
-re-export everything below after editing an SVG.
+```bash
+python3 assets/branding/export.py
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
 
-Exports: `png/` holds the sources for the generated launcher icons and
-splash (not bundled in the app); `assets/images/logo_mark.png` and
-`assets/images/wordmark.png` are the in-app logo. Regenerate the Android/iOS
-icons and splash with `dart run flutter_launcher_icons` and
-`dart run flutter_native_splash:create`. The TV banner
-(`android/.../res/drawable*/tv_banner.png`) and notification icon
-(`ic_stat_open_iptv`) are exported directly from `tv_banner.svg` and
-`mark_mono.svg`.
+Android is the validated platform for this fork. Legacy `icon_tile.svg` and
+`readme_banner.svg` are retained from upstream as historical source artwork;
+the exporter does not use them or generate a README banner.

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Brand ink, the splash and adaptive-icon background.
-const kBrandInk = Color(0xFF0A0A12);
+const kBrandInk = Color(0xFF101C30);
 
 /// Shown while the app starts up (database opening), laid out exactly like
 /// the native splash — the "Open Ring" mark centred, the wordmark near the

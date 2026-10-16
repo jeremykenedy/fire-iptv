@@ -2,18 +2,25 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Release signing key — android/key.properties (git-ignored) points at a
-// keystore kept outside the repo. Every release MUST be signed with the same
-// key or Android refuses to install it over the existing app (in-app updates
-// fail with "App not installed"). Without key.properties (e.g. a contributor's
-// checkout) release builds fall back to the debug key.
+// Official releases receive signing credentials through the environment.
+// Contributors can build with a debug key; build-release.py requires the
+// stable private release key and never writes passwords into this checkout.
 val keystoreProperties = Properties().apply {
     val file = rootProject.file("key.properties")
     if (file.exists()) file.inputStream().use { load(it) }
+    mapOf(
+        "storeFile" to "FIRE_IPTV_KEYSTORE",
+        "storePassword" to "FIRE_IPTV_STORE_PASSWORD",
+        "keyAlias" to "FIRE_IPTV_KEY_ALIAS",
+        "keyPassword" to "FIRE_IPTV_KEY_PASSWORD",
+    ).forEach { (property, variable) ->
+        System.getenv(variable)?.let { setProperty(property, it) }
+    }
 }
 val hasReleaseKey = keystoreProperties.getProperty("storeFile") != null
 
@@ -31,8 +38,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.openiptv.app"
+        applicationId = "com.jeremykenedy.fireiptv"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

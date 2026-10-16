@@ -9,6 +9,7 @@ import 'package:open_iptv/core/parsers/m3u_parser.dart';
 import 'package:open_iptv/core/parsers/xtream_client.dart';
 import 'package:open_iptv/core/services/epg_service.dart';
 import 'package:open_iptv/core/services/profile_service.dart';
+import 'package:open_iptv/core/services/starter_catalog.dart';
 import 'package:open_iptv/core/storage/database.dart';
 import 'package:open_iptv/core/storage/local_playlists.dart';
 import 'package:open_iptv/shared/utils/redact.dart';
@@ -542,7 +543,27 @@ class SourceManager {
     void Function()? onFetched,
   }) async {
     if (LocalPlaylists.isLocal(url)) {
-      final content = await _local.read(url);
+      var content = await _local.read(url);
+      final managedUrl = managedCatalogUrls[sourceId];
+      if (managedUrl != null) {
+        try {
+          final response = await http
+              .get(Uri.parse(managedUrl))
+              .timeout(const Duration(seconds: 8));
+          if (response.statusCode == 200 &&
+              response.body.trimLeft().startsWith('#EXTM3U')) {
+            final updated = await M3uParser.parse(response.body, sourceId);
+            if (updated.channels.isNotEmpty &&
+                updated.movies.isEmpty &&
+                updated.series.isEmpty) {
+              await _local.replace(url, response.body);
+              content = response.body;
+            }
+          }
+        } catch (_) {
+          // The bundled or previously cached catalog remains available.
+        }
+      }
       onFetched?.call();
       final result = await M3uParser.parse(content, sourceId);
       if (result.channels.isEmpty &&
@@ -605,10 +626,12 @@ class SourceManager {
     }
 
     onProgress?.call('Saving to database…');
-    await db.replaceChannelsForSource(source.id, result.channels);
-    await db.replaceMoviesForSource(source.id, result.movies);
-    await db.replaceSeriesForSource(source.id, result.series);
-    await db.replaceEpisodesForSource(source.id, result.episodes);
+    await db.transaction(() async {
+      await db.replaceChannelsForSource(source.id, result.channels);
+      await db.replaceMoviesForSource(source.id, result.movies);
+      await db.replaceSeriesForSource(source.id, result.series);
+      await db.replaceEpisodesForSource(source.id, result.episodes);
+    });
     return updated;
   }
 

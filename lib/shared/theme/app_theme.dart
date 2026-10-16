@@ -7,13 +7,13 @@ class AppTheme {
   // Palette
   // ---------------------------------------------------------------------------
 
-  static const _background = Color(0xFF0F0F0F);
-  static const _surface = Color(0xFF1C1C1E);
-  static const _surfaceVariant = Color(0xFF2C2C2E);
-  static const _outline = Color(0xFF3A3A3C);
-  static const defaultAccent = Color(0xFF0A84FF);
-  static const defaultAccentHex = '0A84FF';
-  static const _onPrimary = Colors.white;
+  static const _background = Color(0xFF101C30);
+  static const _surface = Color(0xFF1B2B44);
+  static const _surfaceVariant = Color(0xFF273B58);
+  static const _outline = Color(0xFF405570);
+  static const defaultAccent = Color(0xFFFFB54A);
+  static const defaultAccentHex = 'FFB54A';
+  static const _onPrimary = Color(0xFF101C30);
   static const _onBackground = Color(0xFFF2F2F7);
   static const _onSurface = Color(0xFFEBEBF5);
   static const _onSurfaceVariant = Color(0xFF8E8E93);
@@ -21,7 +21,8 @@ class AppTheme {
 
   // Available accent color swatches
   static const List<({String label, Color color})> accentSwatches = [
-    (label: 'Blue', color: defaultAccent),
+    (label: 'Amber', color: defaultAccent),
+    (label: 'Blue', color: Color(0xFF0A84FF)),
     (label: 'Purple', color: Color(0xFFBF5AF2)),
     (label: 'Pink', color: Color(0xFFFF2D55)),
     (label: 'Orange', color: Color(0xFFFF9F0A)),

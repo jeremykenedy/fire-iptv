@@ -16,6 +16,10 @@ import 'package:open_iptv/core/services/tv_text_input.dart';
 import 'package:open_iptv/features/live_tv/channel_list_screen.dart';
 import 'package:open_iptv/features/movies/movie_detail_screen.dart';
 import 'package:open_iptv/features/movies/movies_screen.dart';
+import 'package:open_iptv/features/discover/discover_screen.dart';
+import 'package:open_iptv/features/live_tv/tv_guide_screen.dart';
+import 'package:open_iptv/core/services/starter_catalog.dart';
+import 'package:open_iptv/core/services/epg_service.dart';
 import 'package:open_iptv/features/onboarding/setup_wizard_screen.dart';
 import 'package:open_iptv/features/player/player_screen.dart';
 import 'package:open_iptv/features/search/search_screen.dart';
@@ -48,6 +52,8 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
   late final GoRouter _router;
   final _tooltipController = InfoTooltipController();
   bool _dbReady = false;
+  String? _startupError;
+  bool _skipStarter = false;
   // True while multiple profiles exist and the user hasn't picked one yet
   // this session.
   bool _needsProfilePick = false;
@@ -60,6 +66,9 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
   }
 
   Future<void> _openDb() async {
+    if (mounted && _startupError != null) {
+      setState(() => _startupError = null);
+    }
     const maxAttempts = 5;
     for (var attempt = 0; attempt < maxAttempts; attempt++) {
       try {
@@ -73,6 +82,33 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
 
     final db = ref.read(appDatabaseProvider);
     final prefs = await ref.read(appPreferencesProvider.future);
+
+    if (!_skipStarter) {
+      try {
+        final installed = await StarterCatalog(
+          db: db,
+          preferences: prefs,
+        ).install();
+        final guide = ref.read(epgServiceProvider);
+        unawaited(() async {
+          for (final source in installed) {
+            try {
+              await guide.refreshEpg(source);
+            } catch (_) {
+              // Live TV remains available when a guide feed is offline.
+            }
+          }
+        }());
+      } catch (_) {
+        if (mounted) {
+          setState(
+            () => _startupError =
+                'The starter library could not be prepared. Try again, or add your own playlist.',
+          );
+        }
+        return;
+      }
+    }
 
     // Re-sync the background auto-refresh registration against the
     // persisted interval — WorkManager can drop periodic registrations
@@ -143,7 +179,7 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
   GoRouter _buildRouter() {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/live',
+      initialLocation: '/discover',
       redirect: (context, state) async {
         final path = state.fullPath ?? '';
         if (path.startsWith('/setup') || path.startsWith('/onboarding')) {
@@ -177,6 +213,14 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
           navigatorKey: _shellNavigatorKey,
           builder: (context, state, child) => _Shell(child: child),
           routes: [
+            GoRoute(
+              path: '/discover',
+              builder: (_, __) => const DiscoverScreen(),
+            ),
+            GoRoute(
+              path: '/sports',
+              builder: (_, __) => const TvGuideScreen(sportsOnly: true),
+            ),
             GoRoute(
               path: '/live',
               builder: (_, __) => const ChannelListScreen(),
@@ -214,9 +258,9 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
               ],
             ),
             GoRoute(
-              path: '/search',
-              builder: (_, __) => const SearchScreen(),
-            ),
+          path: '/search',
+          builder: (_, __) => const SearchScreen(),
+        ),
             // A tab since 0.12.1 (the gear in the top corner confused
             // people); its pages stay inside the shell, under the nav.
             GoRoute(
@@ -286,6 +330,38 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
     final accent = ref.watch(accentColorProvider);
 
     if (!_dbReady) {
+      if (_startupError != null) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.dark(accent),
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 500,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(_startupError!, textAlign: TextAlign.center),
+                    const SizedBox(height: 24),
+                    FilledButton(
+                      autofocus: true,
+                      onPressed: _openDb,
+                      child: const Text('Try again'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _skipStarter = true;
+                        unawaited(_openDb());
+                      },
+                      child: const Text('Add my playlist'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
       return const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: BrandSplash(),
@@ -310,7 +386,7 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
     return InfoTooltipScope(
       controller: _tooltipController,
       child: MaterialApp.router(
-        title: 'OpenIPTV',
+        title: 'fire-iptv',
         theme: AppTheme.dark(accent),
         darkTheme: AppTheme.dark(accent),
         themeMode: ThemeMode.dark,
@@ -513,10 +589,12 @@ class _ShellState extends State<_Shell> with WidgetsBindingObserver {
     _exitArmedAt = DateTime.now();
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(
-        content: Text('Press Back again to exit'),
-        duration: _exitWindow,
-      ));
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('Press Back again to exit'),
+          duration: _exitWindow,
+        ),
+      );
   }
 
   bool _railHasFocus() =>
@@ -598,8 +676,12 @@ class _NavDestination {
 }
 
 const _kNavDestinations = [
+  _NavDestination(Icons.explore_outlined, 'Discover', '/discover',
+      selectedIcon: Icons.explore),
   _NavDestination(Icons.live_tv_outlined, 'Live TV', '/live',
       selectedIcon: Icons.live_tv),
+  _NavDestination(Icons.sports_outlined, 'Sports', '/sports',
+      selectedIcon: Icons.sports),
   _NavDestination(Icons.movie_outlined, 'Movies', '/movies',
       selectedIcon: Icons.movie),
   _NavDestination(Icons.video_library_outlined, 'Series', '/series',
@@ -716,7 +798,7 @@ class _TvNavRailState extends State<_TvNavRail> {
             children: [
               for (var i = 0; i < _kNavDestinations.length; i++)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.symmetric(vertical: 3),
                   child: _TvNavRailItem(
                     icon: _kNavDestinations[i].icon,
                     label: _kNavDestinations[i].label,
@@ -797,7 +879,7 @@ class _TvNavRailItemState extends State<_TvNavRailItem> {
           duration: _duration,
           curve: _curve,
           margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
           decoration: BoxDecoration(
             color:
                 _focused ? accent.withValues(alpha: 0.16) : Colors.transparent,

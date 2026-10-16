@@ -1,140 +1,55 @@
-# Changelog
+# Release notes
 
-What changed in each version of OpenIPTV, in plain English. Releases
-and downloads are on the [Releases page](https://github.com/Hunter-Clipper/OpenIPTV/releases).
+## 1.0.0
 
-## 0.14.8 — 2026-10-14
+The first fire-iptv release turns the OpenIPTV foundation into a Fire TV
+starting point with an automatic live catalog, discovery tiles and a sports
+guide. Movies and series come from a provider added by the owner.
 
-**TV guide**
-- Long channel names and programme titles no longer stay cut off. When a channel or programme is highlighted, its text slides sideways to show the rest, pauses, and starts again. The programme title and details at the top of the guide do the same. Text that already fits doesn't move.
+### Upgrade guide
 
-**Playback stops when you leave**
-- Press Home with Picture in Picture turned off and whatever is playing now stops: the full-screen player, the TV guide preview and multi-view (all tiles). Casting to another device keeps going. With Picture in Picture on, Home works as before.
-- Close the Picture in Picture window (the X, or swipe it away) and the stream now stops for good. Before, it could quietly start again behind other apps. Expanding the window back to the app still keeps playing.
-- If another app takes the sound (YouTube starting a video, a phone call), OpenIPTV now stays paused instead of starting again by itself when that app lets go. Press play to carry on.
+Install through `fire-iptv --install` in fire-tv-toolkit, or install the signed
+`fire-iptv.apk` with ADB. Android 7 / API 24 or newer and an ARM processor are
+required. The release includes 32-bit and 64-bit ARM code.
 
-**Behind the scenes**
-- When the Picture in Picture window closes, every stream is stopped at the source and the player's automatic reconnect is switched off.
+This is a new application ID, `com.jeremykenedy.fireiptv`. OpenIPTV and OwnTV
+remain separate installations. There is no automatic migration of their
+private settings. Use OpenIPTV's backup/restore if you intentionally want its
+existing setup. A fresh install prepares the Everyone profile and live-only
+starter; an imported setup is preserved. Export a backup before uninstalling.
 
-## 0.14.0 — 2026-10-13
+### Breaking changes
 
-**A TV guide on TVs**
-- On a TV, Live TV is now a full programme guide: your categories down the left, what's on (with its time and description) at the top, and every channel's programmes on a timeline below — with channel logos, and a line marking the time now.
-- Move through categories with the remote and the guide follows. Favorites, Recently Watched and All Channels come first; locked categories ask for the PIN.
-- Hold OK on a channel for its options.
-- **Preview:** OK on a channel plays it in the picture at the top, so you can keep browsing while it plays. Press OK again on it to watch full screen — it carries on without restarting — and Back brings you back to the guide with it still playing. If a channel can't play, the picture says so instead of staying black.
-- OK on an earlier programme plays it from catch-up where the channel has it; anywhere else, OK plays the channel live.
-- Up and Down keep your place in time, so you move straight to what's on the next channel.
-- In Recently Watched, hold OK on a channel to remove it.
-- Phones and tablets keep Live TV as it was.
+None for existing fire-iptv users: this is the first release. Compared with the
+upstream app, first launch now prepares public live-channel snapshots and
+opens Discover. In-app updates use this repository's signed releases.
 
-**Fixes**
-- In the player, Back now hides the controls when they're showing; press Back again to leave.
+### Major changes
 
-## 0.13.2 — 2026-10-12
+- Automatic live-only setup with 1,323 channels and two matched XMLTV feeds.
+- Discover, All sports and a compact seven-item TV navigation rail.
+- Provider-based poster libraries, recent releases, recommendations and random
+  movie selection, respecting the active profile's visible library.
+- Native Tubi and Plex shortcuts for TV administrators.
+- A checksum-pinned toolkit installer and a compatible OwnTV starter playlist.
 
-**Fixes**
-- On a TV, holding OK on a channel to open its options could pick the first option by itself (for example, removing the channel from Recently Watched). Holding OK now only opens the options.
+### Minor changes and fixes
 
-## 0.13.1 — 2026-10-12
+- Navy and amber Fire TV branding and native launcher artwork.
+- Atomic catalog updates, last-good cache recovery and preservation of custom
+  sources, removed presets, profiles and favorites.
+- Stable release signing without plaintext password files.
+- Flutter analysis, behavior tests, catalog validation and Android compilation
+  in CI.
 
-**Fixes**
-- In multi-view, some channels could keep loading forever in an added tile while playing fine full screen. Added channels now open every kind of stream the same way the full-screen player does.
-- In multi-view, channel names on the tiles and in the options now follow **Clean Up Names**, like the rest of the app.
+### Verification and limitations
 
-**Behind the scenes**
-- Tidier multi-view code: the tiles redraw less often (easier on TV sticks) and the sound switches between channels with less work.
+The native app was installed and exercised on a physical 32-bit Fire TV,
+including first launch, guide data and CBS Sports playback. The release APK
+also compiles 64-bit ARM; that hardware is not physically tested. Catalog
+counts describe the bundled snapshot. Stream availability and guide coverage
+vary. No movie or series library is bundled, and proprietary app catalogs are
+opened through their own apps. A provider with on-demand content is required
+for integrated modern movies and series.
 
-## 0.13.0 — 2026-10-12
-
-**Multi-view — watch several channels at once**
-- While watching a live channel, tap **Add a channel** (next to the channel list) and pick another. The screen splits so you can watch both — and you can keep adding more.
-- The layout follows how many channels you're watching: two side by side, three as one big with two smaller, four in a grid, and so on. Choose **Equal grid** or **One big** any time.
-- Sound comes from the channel you highlight (move with the remote, or tap it on a phone); the others stay quiet and slightly dimmed, and a speaker shows which one you're hearing.
-- Press OK (or tap the highlighted channel) for its options: **Full screen**, **Swap channel**, **Add a channel**, **Layout** and **Remove**.
-- **Back** keeps the highlighted channel playing full screen.
-- Works with every playlist. If a provider won't allow another stream, or a channel isn't available, that tile says so in plain English and the others keep playing.
-- Phones show multi-view sideways, like the full-screen player.
-
-**Fixes**
-- Picking a channel from the channel list in the player could close the player and drop you back to the list. It now switches channel as it should.
-- Opening OpenIPTV from the home screen now checks for updates again. Before, the check only ran when the app had been fully closed, so a new version could go unnoticed. It checks at most every 15 minutes, and never interrupts a video you're watching.
-
-## 0.12.2 — 2026-10-12
-
-**Settings is now a tab**
-- Settings has moved from the small gear in the top corner to the menu with Live TV, Movies, Series and Search — at the bottom on phones and tablets, on the left on TVs.
-
-**Typing on a TV**
-- The on-screen keyboard now sits in a full-width tray that slides up smoothly, instead of cutting the screen off on both sides of it. The menu on the left stays in place.
-- The field you're typing in, with its label, is kept in view just above the keyboard.
-- A blinking cursor now shows where you're typing.
-- **Next** on the keyboard goes straight to the next field with the keyboard still open — no pressing OK on every field.
-- Search: pressing the keyboard's Search key takes you straight to the first result.
-- Change PIN no longer shows a "0/8" counter inside the highlight, and the backup password box is where the remote starts (one press used to export an unprotected backup). Entering a protected backup's password opens the keyboard straight away.
-- The Playlists panel now starts with the remote on Add Playlist instead of an off-screen row.
-- Edit Playlist starts with the remote on the first box (press OK to type).
-- In small windows (Change PIN, a new profile), the box you're typing in lines up neatly at the top — no more half-cut boxes above or below it.
-- Back on the add-playlist screens goes one step back instead of closing them, and the back arrow there is no longer cut off.
-
-**Storage**
-- OpenIPTV takes up less space. Every refresh left unused space inside its database that was never given back to your device. Now it's handed back after each refresh, and the first time you open this version OpenIPTV tidies up its database once (about half a minute on a TV — one TV went from 203 MB to 108 MB).
-- If your device is nearly full, OpenIPTV clears its TV guide first to make room for the tidy-up, then downloads the guide again. No reinstall needed.
-- Saving a TV guide does half the work it used to: each programme is saved once instead of twice, and guide entries for channels you don't have are no longer stored.
-- Removing a playlist now also removes its TV guide straight away.
-
-## 0.12.0 — 2026-10-11
-
-**Power User Update**
-
-**Power User Tools** — Settings → Advanced, at the very bottom (admin profiles)
-- **Network info:** see how your device is connected — Wi-Fi or Ethernet, its IP address, DNS servers and whether a VPN is on. Tap **Check** to see the public IP address your provider sees. Handy when a provider has trouble reaching you.
-- **Built-in VPN:** import a WireGuard (`.conf`) or OpenVPN (`.ovpn`) profile from your VPN provider, then connect with one tap. Choose **Only OpenIPTV** (other apps keep your normal connection) or **Whole device** (everything except Android Auto's link to your car). It can connect automatically when OpenIPTV opens. The first time, Android asks to allow a VPN connection — that's normal.
-- **Speed test:** how fast video arrives from your provider, and a general internet test, each with a plain-English verdict (SD, HD, 4K).
-- **Playback buffer:** **Fast start** (as before), **Balanced** or **Smooth** — a bigger reserve rides out a shaky connection but takes longer to start.
-- Works with a TV remote, and nothing is sent anywhere unless you tap a button that says where it goes: **Check** asks api.ipify.org for your public IP address, and the general speed test downloads a file from speed.cloudflare.com.
-
-**Watch in the car while parked** — Android Auto
-- Pick a channel, movie or episode in OpenIPTV on the car screen, then open **Video** (the second OpenIPTV icon) to see the picture full screen. It shows what OpenIPTV is already playing, so there's no second connection to your provider.
-- Made for when you're parked: cars that limit apps while driving close the picture, and the sound keeps playing.
-- Needs a small add-on app (about 1 MB). Install it from **Settings → Playback → Video in the Car**. If it doesn't show up in the car, turn on "Unknown sources" in Android Auto's developer settings.
-
-**Fixes**
-- Your data is safer: if the phone or TV briefly fails to unlock OpenIPTV's encrypted storage at start-up, OpenIPTV now tries again instead of starting over empty.
-- Restoring a backup, or changing the Auto-Refresh setting, no longer starts a second full download of every playlist in the background.
-- Closing OpenIPTV (swiping it away from recent apps) now also turns off its built-in VPN. Pressing Home or listening in the car keeps it on.
-- Android Auto: picking something on the car screen now always plays what you picked — before, it could switch back to what the phone had played first.
-- Android Auto: if a channel freezes, the car reconnects by itself, and a title that can't play shows a short message instead of sitting at 0:00.
-
-## 0.11.13 — 2026-10-09
-
-**Unlock with your fingerprint or face**
-- The admin can now use their fingerprint or face instead of typing the admin PIN: when opening a locked category or locked search result, turning off a Kids profile, or switching to the admin profile on "Who's watching?".
-- It's off until you turn it on: **Settings → your profile → Security → Unlock with Fingerprint or Face**. Turning it on asks for the admin PIN first.
-- The admin PIN always works too — tap **Use PIN** on the scan prompt, or just cancel it.
-- If a new fingerprint or face is added to the device, it turns itself off and tells you why, so nobody else's fingerprint can unlock it without you knowing. Turn it back on in the same place.
-- Other profiles still use their own PINs. Phones and tablets only (Android 11 and newer, with a fingerprint or face unlock set up); TVs keep the PIN.
-
-## 0.11.8 — 2026-10-08
-
-**Playlist refresh you can trust**
-- If your provider has a problem partway through a refresh, your playlist now stays exactly as it was. Before, a refresh that failed halfway could leave a playlist with missing channels, movies or series until the next good refresh.
-- Pulling down to refresh Live TV, Movies or Series now only refreshes the playlist you're browsing (or all of them when you browse "All playlists"), so it finishes much sooner. If a playlist can't be refreshed, you'll see a short message saying which one and why, and the others still refresh.
-- When a provider's server is having trouble, the message now says so, instead of suggesting your playlist link is wrong.
-- Refreshing or removing a playlist is much faster on TVs with large playlists.
-
-**Playlists screen**
-- "Playlist refreshed" and "refresh failed" messages now show inside the Playlists panel instead of hiding behind it.
-- On TV, the remote's highlight stays on the playlist you're refreshing instead of jumping to another row.
-
-The first time you open this version, it takes a few extra seconds to tidy up its database. This only happens once.
-
-## 0.11.0 — 2026-10-08
-
-**OpenIPTV in your car — Android Auto**
-- Browse Live TV, Movies and Series on your car's screen and listen through the car's speakers.
-- Play, pause, next and previous from the car display; your place in movies and episodes is saved as you listen.
-- Search from the car, with parental controls and Kids profiles applied just like on your phone.
-- Playback pauses instead of switching to your phone's speaker when headphones or the car disconnect.
-
-Earlier versions are described in their release notes.
+Source base: [OpenIPTV v0.14.8](https://github.com/Hunter-Clipper/OpenIPTV/tree/v0.14.8).

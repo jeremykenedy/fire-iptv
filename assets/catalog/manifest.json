@@ -1,0 +1,31 @@
+{
+  "revision": "2026.10.16.1",
+  "sources": [
+    {
+      "id": "fire-iptv-live",
+      "name": "Free live TV",
+      "file": "live.m3u",
+      "sha256": "da7358d83c7c2f0a81c3f0171f16b2260619beb6e03167b691771038abe1b1fe",
+      "epgUrl": "https://i.mjh.nz/PlutoTV/us.xml.gz"
+    },
+    {
+      "id": "fire-iptv-samsung",
+      "name": "Samsung TV Plus",
+      "file": "samsung.m3u",
+      "sha256": "89dbe36ebd2bf052cb096dc8314a6e895c61ca86ef7997b07707137e9c2db4a0",
+      "epgUrl": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz"
+    }
+  ],
+  "provenance": {
+    "generated": "2026-10-16",
+    "livePlaylists": [
+      "https://iptv-org.github.io/iptv/countries/us.m3u",
+      "https://iptv-org.github.io/iptv/categories/sports.m3u"
+    ],
+    "guideFeeds": [
+      "https://i.mjh.nz/PlutoTV/us.xml.gz",
+      "https://i.mjh.nz/SamsungTVPlus/us.xml.gz"
+    ],
+    "description": "Public live-channel links, grouped for browsing. Availability and guide coverage vary. Movie and series catalogs are supplied by the owner. No account credentials or personal settings are included."
+  }
+}

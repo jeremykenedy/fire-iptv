@@ -5,6 +5,8 @@ import 'dart:typed_data';
 
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:open_iptv/core/models/source.dart';
 import 'package:open_iptv/core/services/epg_service.dart';
 import 'package:open_iptv/core/services/source_manager.dart';
@@ -114,6 +116,41 @@ void main() {
           db: db, epgService: EpgService(db: db), localPlaylists: store);
     });
     tearDown(() => db.close());
+
+    Future<Source> managedSource() async {
+      final url = await store.save('fire-iptv-live', _playlist);
+      final source = Source(id: 'fire-iptv-live', nickname: 'Free live TV',
+          type: SourceType.m3u, m3uUrl: url);
+      await db.upsertSource(source);
+      return source;
+    }
+
+    test('a managed refresh uses the last working catalog during an outage', () async {
+      final source = await managedSource();
+      await http.runWithClient(() => manager.refreshPlaylist(source),
+          () => MockClient((_) async => http.Response('Unavailable', 503)));
+      expect((await db.getAllChannels()).single.name, 'Channel One');
+      expect(await store.read(source.m3uUrl!), _playlist);
+    });
+
+    test('a managed refresh saves valid live TV and ignores an on-demand feed', () async {
+      final source = await managedSource();
+      final replacement = _playlist.replaceAll('Channel One', 'Channel Two');
+      await http.runWithClient(() => manager.refreshPlaylist(source),
+          () => MockClient((request) async {
+            expect(request.url.host, 'raw.githubusercontent.com');
+            return http.Response(replacement, 200);
+          }));
+      expect((await db.getAllChannels()).single.name, 'Channel Two');
+      expect(await store.read(source.m3uUrl!), replacement);
+      await http.runWithClient(() => manager.refreshPlaylist(source),
+          () => MockClient((_) async => http.Response('#EXTM3U\n'
+              '#EXTINF:-1 group-title="Movies",Old film\n'
+              'https://example.com/movie.mp4\n', 200)));
+      expect((await db.getAllChannels()).single.name, 'Channel Two');
+      expect(await db.getAllMovies(), isEmpty);
+      expect(await store.read(source.m3uUrl!), replacement);
+    });
 
     test('saves the file and loads its channels', () async {
       final source = await manager.addSource(

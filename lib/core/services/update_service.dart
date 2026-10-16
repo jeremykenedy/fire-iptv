@@ -15,7 +15,7 @@ import 'package:path_provider/path_provider.dart';
 const _updateFeedUrl = String.fromEnvironment(
   'OPENIPTV_UPDATE_FEED',
   defaultValue:
-      'https://api.github.com/repos/Hunter-Clipper/OpenIPTV/releases/latest',
+      'https://api.github.com/repos/jeremykenedy/fire-iptv/releases/latest',
 );
 
 /// The release file this build installs from. Every client (Android, and
@@ -23,7 +23,7 @@ const _updateFeedUrl = String.fromEnvironment(
 /// release made for another platform is never offered here. Android's name
 /// is fixed: installs already in the field and the TV Downloader code look
 /// for exactly `app-release.apk`.
-const androidReleaseAsset = 'app-release.apk';
+const androidReleaseAsset = 'fire-iptv.apk';
 
 /// "OpenIPTV Video", the add-on that shows the picture on the Android Auto
 /// screen (android/carvideo). Attached to each release under this name.

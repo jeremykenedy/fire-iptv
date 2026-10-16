@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300"><!-- OpenIPTV "Open Ring" mark. Brand gradient: #8B5CF6 → #3B82F6 → #22D3EE on ink #0A0A12. --><defs>
-<linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8B5CF6"/><stop offset="0.55" stop-color="#3B82F6"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
-<style>@font-face{font-family:GS;src:url(../fonts/google_sans/GoogleSans-Bold.ttf)}@font-face{font-family:GSM;src:url(../fonts/google_sans/GoogleSans-Medium.ttf)}</style></defs>
-<text x="600" y="205" text-anchor="middle" font-family="GSM" font-size="190" fill="#F4F4F8" letter-spacing="-4">Open<tspan font-family="GS" fill="url(#wg)">IPTV</tspan></text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300"><text x="600" y="205" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="700" font-size="190" fill="#EDF2F8" letter-spacing="-5">fire<tspan fill="#FFB54A">-iptv</tspan></text></svg>

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_iptv/core/models/channel.dart';
+import 'package:open_iptv/features/discover/discovery.dart';
 import 'package:open_iptv/core/models/programme.dart';
 import 'package:open_iptv/core/providers/channel_providers.dart';
 import 'package:open_iptv/core/providers/theme_providers.dart';
@@ -87,7 +88,9 @@ Programme? _airing(List<Programme> programmes) =>
 /// preview of the channel you picked at the top, and a channel × time guide
 /// below. Phones keep the Live TV lists.
 class TvGuideScreen extends ConsumerStatefulWidget {
-  const TvGuideScreen({super.key});
+  const TvGuideScreen({super.key, this.sportsOnly = false});
+
+  final bool sportsOnly;
 
   @override
   ConsumerState<TvGuideScreen> createState() => _TvGuideScreenState();
@@ -316,7 +319,8 @@ class _TvGuideScreenState extends ConsumerState<TvGuideScreen>
           message: "Couldn't load channels. Check your internet connection.",
           onRetry: () => ref.invalidate(allChannelsProvider),
         ),
-        data: _buildGuide,
+        data: (channels) => _buildGuide(widget.sportsOnly
+            ? channels.where(isSportsChannel).toList() : channels),
       ),
     );
   }
@@ -338,7 +342,7 @@ class _TvGuideScreenState extends ConsumerState<TvGuideScreen>
     final recent = [
       for (final c in ref.watch(recentChannelsProvider).valueOrNull ??
           const <Channel>[])
-        if (allowed(c)) c
+        if (allowed(c) && (!widget.sportsOnly || isSportsChannel(c))) c
     ];
     final categories = [
       if (favorites.isNotEmpty) _favorites,
@@ -411,7 +415,7 @@ class _TvGuideScreenState extends ConsumerState<TvGuideScreen>
                     label: switch (key) {
                       _favorites => 'Favorites',
                       _recent => 'Recently Watched',
-                      _all => 'All Channels',
+                      _all => widget.sportsOnly ? 'All Sports' : 'All Channels',
                       _ => context.displayName(key),
                     },
                     selected: key == shown,

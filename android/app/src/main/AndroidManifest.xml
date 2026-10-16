@@ -20,11 +20,11 @@
     <!-- The "OpenIPTV Video" car add-on (same signing key) shows the
          player's picture on the Android Auto screen. -->
     <permission
-        android:name="com.openiptv.app.permission.CAR_VIDEO"
+        android:name="com.jeremykenedy.fireiptv.permission.CAR_VIDEO"
         android:protectionLevel="signature" />
 
     <application
-        android:label="OpenIPTV"
+        android:label="fire-iptv"
         android:name=".OpenIptvApplication"
         android:icon="@mipmap/ic_launcher"
         android:banner="@drawable/tv_banner"
@@ -76,7 +76,7 @@
         <service
             android:name=".CarVideoService"
             android:exported="true"
-            android:permission="com.openiptv.app.permission.CAR_VIDEO" />
+            android:permission="com.jeremykenedy.fireiptv.permission.CAR_VIDEO" />
         <!-- Disconnects the built-in VPN when the app is swiped away (#41). -->
         <service
             android:name=".VpnCloseWatcher"
@@ -128,6 +128,8 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <package android:name="com.tubitv.ott"/>
+        <package android:name="com.plexapp.android"/>
         <!-- The built-in VPN keeps Android Auto out of the tunnel in "Whole
              device" mode (VpnExclusions); since Android 11 an app can only
              see other apps it declares here. -->

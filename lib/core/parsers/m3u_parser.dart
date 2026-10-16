@@ -103,6 +103,9 @@ class M3uParser {
             posterUrl: attrs['tvg-logo'],
             streamUrl: streamUrl,
             genre: group.isNotEmpty ? group : null,
+            year: attrs['year'],
+            rating: attrs['rating'],
+            description: attrs['plot'] ?? attrs['description'],
           ));
         }
       } else {

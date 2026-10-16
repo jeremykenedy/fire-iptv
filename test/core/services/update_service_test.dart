@@ -33,8 +33,8 @@ void main() {
         'assets': [
           {'name': 'checksums.txt', 'browser_download_url': 'https://x/c'},
           {
-            'name': 'app-release.apk',
-            'browser_download_url': 'https://x/app-release.apk',
+            'name': 'fire-iptv.apk',
+            'browser_download_url': 'https://x/fire-iptv.apk',
             'size': 1234,
           },
         ],
@@ -42,7 +42,7 @@ void main() {
       expect(info.version, const AppVersion(0, 10, 46));
       expect(info.title, 'v0.10.46 — In-app updates');
       expect(info.notes, startsWith('## What'));
-      expect(info.apkUrl, 'https://x/app-release.apk');
+      expect(info.apkUrl, 'https://x/fire-iptv.apk');
       expect(info.apkSize, 1234);
     });
 
@@ -72,7 +72,7 @@ void main() {
         'name': '',
         'assets': [
           {'name': 'OpenIPTV-windows.zip', 'browser_download_url': 'https://x/w'},
-          {'name': 'app-release.apk', 'browser_download_url': 'https://x/a'},
+          {'name': 'fire-iptv.apk', 'browser_download_url': 'https://x/a'},
         ],
       })!;
       expect(info.apkUrl, 'https://x/a');
@@ -88,7 +88,7 @@ void main() {
         'tag_name': 'v0.11.30',
         'assets': [
           {'name': carVideoAddonAsset, 'browser_download_url': 'https://x/c'},
-          {'name': 'app-release.apk', 'browser_download_url': 'https://x/a'},
+          {'name': 'fire-iptv.apk', 'browser_download_url': 'https://x/a'},
         ],
       };
       expect(

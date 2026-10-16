@@ -45,6 +45,11 @@ class AppPreferences {
 
   final SharedPreferences _prefs;
 
+  String? get starterCatalogRevision =>
+      _prefs.getString('fire_iptv_catalog_revision');
+  Future<void> setStarterCatalogRevision(String revision) =>
+      _prefs.setString('fire_iptv_catalog_revision', revision);
+
   String? get activeProfileId => _prefs.getString(_kActiveProfileId);
   Future<void> setActiveProfileId(String id) =>
       _prefs.setString(_kActiveProfileId, id);

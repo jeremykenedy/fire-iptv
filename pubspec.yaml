@@ -1,7 +1,7 @@
 name: open_iptv
-description: Open-source, ad-free, cross-platform IPTV client.
+description: A TV guide, sports hub, and personal streaming library for Fire TV.
 publish_to: none
-version: 0.14.8+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -78,7 +78,7 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: true
-  ios: true
+  ios: false
   # Brand artwork sources: assets/branding/ (see its README).
   image_path: "assets/branding/png/app_icon.png"
   adaptive_icon_background: "assets/branding/png/icon_background.png"
@@ -89,14 +89,14 @@ flutter_launcher_icons:
     generate: false
 
 flutter_native_splash:
-  color: "#0A0A12"
+  color: "#101C30"
   image: assets/branding/png/splash_mark.png
   branding: assets/images/wordmark.png
   branding_bottom_padding: 48
   android: true
-  ios: true
+  ios: false
   android_12:
-    color: "#0A0A12"
+    color: "#101C30"
     image: assets/branding/png/splash_mark.png
     branding: assets/images/wordmark.png
 
@@ -119,3 +119,4 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/catalog/
