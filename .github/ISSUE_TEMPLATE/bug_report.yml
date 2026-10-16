@@ -1,0 +1,37 @@
+name: Bug report
+description: Report behavior that differs from the documented Fire TV experience.
+title: "[Bug] "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: The fire-iptv version shown in Settings.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android or Fire OS version
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the screen, remote buttons and source type involved.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Remove provider passwords, tokens and private playlist URLs from logs or screenshots.
+    validations:
+      required: true

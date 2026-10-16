@@ -1,0 +1,17 @@
+name: Documentation correction
+description: Report an incorrect instruction, broken link or missing explanation.
+title: "[Docs] "
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or section
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: Include the current instruction and the behavior you verified.
+    validations:
+      required: true

@@ -13,3 +13,11 @@ plan. They are reference material, not a statement of fire-iptv platform support
 - [Original build specification](IPTV_BUILD_SPEC.md)
 - [M3U Plus reference](m3u_plus_protocol_documentation.pdf)
 - [Xtream API reference](xtream_api_documentation.pdf)
+
+| Upstream design reference | Contents |
+| --- | --- |
+| [TV guide](design/tv-guide.md) | Original timeline, preview and remote navigation design |
+| [Android Auto](design/android-auto.md) | Upstream vehicle integration design and limitations |
+| [Casting](design/casting.md) | Upstream casting implementation notes |
+| [Multi-view](design/multi-view.md) | Upstream simultaneous-player design |
+| [Power-user tools](design/power-user-tools.md) | Upstream diagnostic and advanced-tool design |
