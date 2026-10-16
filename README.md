@@ -1,4 +1,7 @@
-# fire-iptv
+<p align="center">
+  <a href="https://github.com/jeremykenedy/fire-iptv#gh-light-mode-only"><picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="art/banner-mobile-still-light.4bd62666c0ff.svg"><source media="(prefers-reduced-motion: reduce)" srcset="art/banner-still-light.cf5ba343cd41.svg"><source media="(max-width: 600px)" srcset="art/banner-mobile-light.fd9c0e2fe84c.svg"><img src="art/banner-light.841172d6c0f7.svg#gh-light-mode-only" alt="fire-iptv" width="800"></picture></a>
+  <a href="https://github.com/jeremykenedy/fire-iptv#gh-dark-mode-only"><picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="art/banner-mobile-still-dark.b4e6e2263d97.svg"><source media="(prefers-reduced-motion: reduce)" srcset="art/banner-still-dark.01f164475fb5.svg"><source media="(max-width: 600px)" srcset="art/banner-mobile-dark.e62aab811c28.svg"><img src="art/banner-dark.6348925e1da3.svg#gh-dark-mode-only" alt="fire-iptv" width="800"></picture></a>
+</p>
 
 <p align="center">A Fire TV guide and discovery app with automatic live TV setup, sports browsing, and your own movie and series libraries.</p>
 
