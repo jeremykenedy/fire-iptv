@@ -39,7 +39,7 @@ longer than later builds. See [native dependency licenses](THIRD_PARTY_NATIVE.md
 
 ## Runtime packages
 
-Required runtime packages are declared in [pubspec.yaml](pubspec.yaml). They are installed by `flutter pub get` when building from source; APK users do not install them separately.
+Required runtime packages are declared in [pubspec.yaml](../pubspec.yaml). They are installed by `flutter pub get` when building from source; APK users do not install them separately.
 
 | Packages | Purpose |
 | --- | --- |
