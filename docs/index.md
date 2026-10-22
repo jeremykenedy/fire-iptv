@@ -4,6 +4,7 @@
 - [Development and release builds](development.md)
 - [Native dependency licenses](THIRD_PARTY_NATIVE.md)
 - [Release notes](../CHANGELOG.md)
+- [1.1.1 update preparation and verification gates](releases/v1.1.1.md)
 
 ## Upstream reference documents
 
