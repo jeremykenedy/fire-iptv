@@ -3,6 +3,9 @@
 - [Catalog, provider setup and OwnTV](catalog.md)
 - [Development and release builds](development.md)
 - [Native dependency licenses](THIRD_PARTY_NATIVE.md)
+- [Configuration and toolkit commands](usage.md)
+- [Integrations and upstream attribution](integrations.md)
+- [Native screenshots and provenance](screenshots.md)
 - [Release notes](../CHANGELOG.md)
 - [1.1.1 update preparation and verification gates](releases/v1.1.1.md)
 

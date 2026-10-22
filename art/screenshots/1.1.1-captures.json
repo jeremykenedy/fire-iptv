@@ -1,0 +1,31 @@
+{
+  "version": "1.1.1",
+  "code": 2,
+  "artifactSha256": "66605a6dd20a1e5039a1115542626a6027701dd800a0e2d991bcbcf86f7e0294",
+  "captured": "2026-10-22",
+  "platform": "physical Fire TV AFTDEC012E / API30",
+  "capture": "Unretouched native ADB screenshots",
+  "images": [
+    {
+      "file": "art/screenshots/discover-1.1.1-fire-tv.png",
+      "sha256": "7624cbf5876f8bed36a37769c181b220baaa4fc157725a1987a207d4ba31be3b",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Discover and the existing live starter"
+    },
+    {
+      "file": "art/screenshots/settings-1.1.1-fire-tv.png",
+      "sha256": "09551d35d2c47188332e7b274a123942710e8d059304e4d0cd0f6e3b541b8d5f",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Existing profile and two playlists after the signed update"
+    },
+    {
+      "file": "art/screenshots/pip-off-1.1.1-fire-tv.png",
+      "sha256": "46b138c5089532a82a15ca23a20c2cc64a2a81aad67238469c3120285505a994",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Picture-in-Picture remains off after relaunch"
+    }
+  ]
+}
