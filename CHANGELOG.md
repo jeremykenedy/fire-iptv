@@ -1,5 +1,13 @@
 # Release notes
 
+## 1.1.1
+
+Picture-in-Picture defaults to off while explicitly saved choices are preserved. The Android update uses the existing package and production signer, with version code 2. See the [upgrade guide and verification](docs/releases/v1.1.1.md).
+
+## 1.1.0
+
+Documentation and README artwork update. The historical release has no Android asset, and its tagged application source still declares 1.0.0/code 1. Its tag and release remain unchanged.
+
 ## 1.0.0
 
 The first fire-iptv release turns the OpenIPTV foundation into a Fire TV

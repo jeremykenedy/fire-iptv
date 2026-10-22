@@ -125,7 +125,7 @@ class AppPreferences {
       _prefs.setBool(_kRefreshNotificationsEnabled, v);
 
   // Picture-in-Picture
-  bool get pipEnabled => _prefs.getBool(_kPipEnabled) ?? true;
+  bool get pipEnabled => _prefs.getBool(_kPipEnabled) ?? false;
   Future<void> setPipEnabled(bool v) => _prefs.setBool(_kPipEnabled, v);
 
   // Now Playing / media notification
