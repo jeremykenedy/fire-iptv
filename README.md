@@ -43,6 +43,7 @@
 | Discovery actions | Recent releases from supplied release years, recommendations and a random movie action| [Details](docs/catalog.md) |
 | Search | Finds available live channels, movies, series and guide programs| [Details](docs/catalog.md) |
 | Favorites and progress | Saved favorites and Continue Watching for the active profile| [Details](docs/catalog.md) |
+| Home screen cards | Live channel cards with direct playback links for compatible TV launchers| [Details](docs/catalog.md#home-screen-cards) |
 | Household profiles | Multiple sources, profiles and inherited parental controls| [Details](docs/catalog.md) |
 | Local data | Encrypted credential storage and backup/restore| [Details](docs/catalog.md) |
 | Catalog recovery | Bundled starter installation and refresh recovery that keeps the last working catalog| [Details](docs/catalog.md) |
@@ -116,18 +117,18 @@ The published APK targets Android TVs. The separate [Fire TV Toolkit desktop app
 | [Integrations](docs/integrations.md) | Toolkit, OwnTV and preserved upstream attribution |
 | [Development](docs/development.md) | Toolchain, architecture, tests and signed builds |
 | [Native screenshots](docs/screenshots.md) | Current physical captures and clearly labeled historical routes |
-| [1.1.1 update notes](docs/releases/v1.1.1.md) | Upgrade behavior and verification limits |
+| [1.2.0 update notes](docs/releases/v1.2.0.md) | Home cards, upgrade behavior and verification |
 | [Changelog](CHANGELOG.md) | Release history |
 
 ## Screenshots
 
-Signed 1.1.1/code 2 running on a physical Fire TV. See the [full gallery and capture provenance](docs/screenshots.md).
+Signed 1.2.0/code 3 running on a physical Fire TV. See the [full gallery and capture provenance](docs/screenshots.md).
 
 <table>
   <tr>
-    <td><a href="art/screenshots/discover-1.1.1-fire-tv.png"><img src="art/screenshots/discover-1.1.1-fire-tv.png" alt="Discover and the existing live starter" width="320"></a></td>
-    <td><a href="art/screenshots/settings-1.1.1-fire-tv.png"><img src="art/screenshots/settings-1.1.1-fire-tv.png" alt="Existing profile and two playlists after the signed update" width="320"></a></td>
-    <td><a href="art/screenshots/pip-off-1.1.1-fire-tv.png"><img src="art/screenshots/pip-off-1.1.1-fire-tv.png" alt="Picture-in-Picture remains off after relaunch" width="320"></a></td>
+    <td><a href="art/screenshots/discover-1.2.0-fire-tv.png"><img src="art/screenshots/discover-1.2.0-fire-tv.png" alt="Discover and the existing live starter" width="320"></a></td>
+    <td><a href="art/screenshots/live-1.2.0-fire-tv.png"><img src="art/screenshots/live-1.2.0-fire-tv.png" alt="Live TV and the program guide after the signed update" width="320"></a></td>
+    <td><a href="art/screenshots/updates-1.2.0-fire-tv.png"><img src="art/screenshots/updates-1.2.0-fire-tv.png" alt="About and the completed update check" width="320"></a></td>
   </tr>
 </table>
 

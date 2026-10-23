@@ -90,3 +90,14 @@ The script validates hashes and live-only entries, then builds the combined
 OwnTV playlist with compatible category labels. Test guide alignment and real
 playback on a TV after changing IDs or stream URLs. It does not assert that
 every URL is reachable or that regional restrictions have disappeared.
+
+
+## Home screen cards
+
+On Fire TV and Android TV running Android 8 / API 26 or newer, opening fire-iptv publishes up to twelve real live-channel cards for compatible launchers. Favorites come first, then recently watched channels and the playlist's normal order. The selected playlist, profile source access, hidden categories and parental restrictions apply. PIN-protected profiles do not publish cards outside the app.
+
+In Fire TV UI, enable featured cards under **Preferences > Appearance > Cards** and allow the **Fire IPTV** source in the channel manager. Selecting a card opens that channel in the existing player. Deleted or newly restricted channels are checked again before playback. Opening the app, changing a profile or playlist, and returning from playback refresh the cards; this is not a background polling service.
+
+The system card provider receives display names, public artwork and stable channel IDs. Provider stream URLs and credentials stay inside fire-iptv. A launcher may hide a source independently; refreshing cards preserves that choice. No watched-history entries or placeholder titles are created to populate Watch Next.
+
+These are fire-iptv's live channels. Personal Plex Continue Watching, Netflix and Prime Video recommendations require their own supported integrations; installing this player does not create those feeds.
