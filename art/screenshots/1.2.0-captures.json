@@ -1,7 +1,7 @@
 {
   "version": "1.2.0",
   "versionCode": 3,
-  "apkSHA256": "612733a0d43bd9b9e159e01562a2ac69b19fb309690bdefa2822984c50e164ea",
+  "apkSHA256": "553800d74cd3ef34d4f8af7bfda253c7ce315c0299ec624cf4047166ff6747d4",
   "apkBytes": 87776469,
   "productionCertificateSHA256": "5bfdd656c79da4291a15f2d80e4e4208aa027f563d7d9afb2cfe63469a147095",
   "capturedLocalDate": "2026-10-22",
@@ -13,25 +13,25 @@
       "sha256": "7624cbf5876f8bed36a37769c181b220baaa4fc157725a1987a207d4ba31be3b",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "live",
       "title": "Live TV and program guide",
       "file": "live-1.2.0-fire-tv.png",
-      "sha256": "e132d1b373220eda0cf8c251865c0f7f1198a365a7acc423c8249167a41c431f",
+      "sha256": "73a412c26f100090f4f37194a900ccfe11709bb25048e9bb6a75b91e7fcc6bfc",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "sports",
       "title": "Sports",
       "file": "sports-1.2.0-fire-tv.png",
-      "sha256": "c3cb50022ea8b735010bfd27fc261da1bda2924051cee26291d190600d76fc83",
+      "sha256": "2fc3498b1845372a9f2e53ebe4ca82d7b51dea77c46a452a9234f374cb98592f",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "movies",
@@ -40,7 +40,7 @@
       "sha256": "db6ed74679ebc844339dfaece9813a0116e4b12049bda7b08cc7707c6a1c6471",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "series",
@@ -49,7 +49,7 @@
       "sha256": "e68d1b1fe19c8433e8776a37a3d2f0f8b1f48324228a722176b02a0828ff34f1",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "settings",
@@ -58,16 +58,25 @@
       "sha256": "09551d35d2c47188332e7b274a123942710e8d059304e4d0cd0f6e3b541b8d5f",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     },
     {
       "route": "updates",
       "title": "About and update check",
       "file": "updates-1.2.0-fire-tv.png",
-      "sha256": "83dfc88c764edc5a583c86d19b06072482611081ae4b20dde3aae9ab3f071ecc",
+      "sha256": "48e547b6bb31b8410688bb65af5029f218704735b3b7b0deeeddd090759cdf98",
       "width": 1920,
       "height": 1080,
-      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+      "source": "Unretouched native physical Fire TV capture of the primary-branch signed build using the public starter catalog"
     }
-  ]
+  ],
+  "sourcePrimaryCommit": "56429191df319ff8e7eabb2e351002008f270e42",
+  "nativeVerification": {
+    "coldPlayback": "Actual D-pad hero activation from a force-stopped player; native video and PLAYING media session for MLB",
+    "warmPlayback": "Package-scoped stable-ID intent in the same running process; native video and PLAYING media session for MLB",
+    "restored": "46 typed launcher preferences, 11 protected OS values, backup/import file bytes, storage app-op mode and protection-service baseline presence; player stopped and launcher Main first page",
+    "otherProviders": "Six available Jellyfish settings preserved exactly; Aquarium and Aquarium Live providers were unavailable, so no raw-value comparison is claimed",
+    "vpn": "Connectivity snapshots retained; no VPN configuration writes or uninterrupted-session claim",
+    "privateDatabase": "Visible Everyone profile, two playlists and 1323 live/226 sports channels retained; no byte-for-byte private database comparison"
+  }
 }

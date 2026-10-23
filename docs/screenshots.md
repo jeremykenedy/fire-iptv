@@ -2,7 +2,7 @@
 
 ## Version 1.2.0
 
-Physical Fire TV, October 22, 2026. These actual 1920x1080 captures show the signed 1.2.0/code 3 app with its public starter catalog. [Capture provenance](../art/screenshots/1.2.0-captures.json) records the exact APK and image hashes. Movies and Series show the starter's empty on-demand libraries; they require an owner-supplied provider. Live TV and the program guide share one route.
+Physical Fire TV, October 22, 2026. These actual 1920x1080 captures show the verified primary-branch signed 1.2.0/code 3 app with its public starter catalog. [Capture provenance](../art/screenshots/1.2.0-captures.json) records the exact APK and image hashes. Movies and Series show the starter's empty on-demand libraries; they require an owner-supplied provider. Live TV and the program guide share one route.
 
 <table>
   <tr>
