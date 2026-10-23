@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.2.0
+
+Compatible TV launchers can show real live-channel cards with direct playback links. Cards follow the active playlist and profile restrictions, prioritize favorites and recent channels, and keep stream credentials inside the player. Android version code 3 preserves the existing package, signer and database. See the [upgrade guide](docs/releases/v1.2.0.md).
+
 ## 1.1.1
 
 Picture-in-Picture defaults to off while explicitly saved choices are preserved. The Android update uses the existing package and production signer, with version code 2. See the [upgrade guide and verification](docs/releases/v1.1.1.md).

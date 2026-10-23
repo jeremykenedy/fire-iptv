@@ -15,6 +15,7 @@ import android.view.WindowManager
 import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import java.util.concurrent.Executors
 
 // Extends AudioServiceActivity (not FlutterActivity) so the Flutter engine is
 // shared with the background audio_service, keeping the Now Playing
@@ -25,6 +26,9 @@ class MainActivity : AudioServiceActivity() {
     private var updatesChannel: MethodChannel? = null
     private var castController: CastController? = null
     private var vpnController: VpnController? = null
+    private var homeCardsChannel: MethodChannel? = null
+    private var pendingHomeChannelLink: String? = null
+    private val homeCardWorker = Executors.newSingleThreadExecutor()
 
     // Updated proactively by Dart via pip_service.dart's updatePipAvailability()
     // whenever "PiP enabled AND actively playing" changes. Read synchronously
@@ -47,6 +51,38 @@ class MainActivity : AudioServiceActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        val publisher = HomeChannelPublisher(applicationContext)
+        homeCardsChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "fireiptv/home-cards")
+        homeCardsChannel?.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "sync" -> {
+                    val entries = call.arguments as? List<*>
+                    if (entries == null || entries.size > 12 || homeCardWorker.isShutdown) {
+                        result.error("invalid_cards", "Could not refresh home cards", null)
+                    } else {
+                        val cards = entries.mapNotNull { item ->
+                            val fields = item as? Map<*, *> ?: return@mapNotNull null
+                            val values = listOf("id", "title", "artUri", "intentUri")
+                            if (values.any { fields[it] !is String }) null
+                            else values.associateWith { fields[it] as String }
+                        }
+                        if (cards.size != entries.size) {
+                            result.error("invalid_cards", "Could not refresh home cards", null)
+                        } else homeCardWorker.execute {
+                            val state = publisher.sync(cards)
+                            runOnUiThread { result.success(state) }
+                        }
+                    }
+                }
+                "takePendingLink" -> {
+                    val link = pendingHomeChannelLink ?: intent?.dataString
+                    pendingHomeChannelLink = null
+                    intent?.data = null
+                    result.success(link)
+                }
+                else -> result.notImplemented()
+            }
+        }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "fireiptv/streaming-apps")
             .setMethodCallHandler { call, result ->
                 if (call.method != "open") {
@@ -136,6 +172,18 @@ class MainActivity : AudioServiceActivity() {
     }
 
     private fun isTelevision(): Boolean = EngineChannels.isTelevision(this)
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        pendingHomeChannelLink = intent.dataString
+        homeCardsChannel?.invokeMethod("linkAvailable", null)
+    }
+
+    override fun onDestroy() {
+        homeCardWorker.shutdown()
+        super.onDestroy()
+    }
 
     // Issue #28: the system's normal screen-timeout/screensaver rules apply
     // during playback because nothing was telling Android the device is in

@@ -1,0 +1,73 @@
+{
+  "version": "1.2.0",
+  "versionCode": 3,
+  "apkSHA256": "612733a0d43bd9b9e159e01562a2ac69b19fb309690bdefa2822984c50e164ea",
+  "apkBytes": 87776469,
+  "productionCertificateSHA256": "5bfdd656c79da4291a15f2d80e4e4208aa027f563d7d9afb2cfe63469a147095",
+  "capturedLocalDate": "2026-10-22",
+  "images": [
+    {
+      "route": "discover",
+      "title": "Discover",
+      "file": "discover-1.2.0-fire-tv.png",
+      "sha256": "7624cbf5876f8bed36a37769c181b220baaa4fc157725a1987a207d4ba31be3b",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "live",
+      "title": "Live TV and program guide",
+      "file": "live-1.2.0-fire-tv.png",
+      "sha256": "e132d1b373220eda0cf8c251865c0f7f1198a365a7acc423c8249167a41c431f",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "sports",
+      "title": "Sports",
+      "file": "sports-1.2.0-fire-tv.png",
+      "sha256": "c3cb50022ea8b735010bfd27fc261da1bda2924051cee26291d190600d76fc83",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "movies",
+      "title": "Movies: empty library with provider setup",
+      "file": "movies-1.2.0-fire-tv.png",
+      "sha256": "db6ed74679ebc844339dfaece9813a0116e4b12049bda7b08cc7707c6a1c6471",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "series",
+      "title": "Series: empty library with provider setup",
+      "file": "series-1.2.0-fire-tv.png",
+      "sha256": "e68d1b1fe19c8433e8776a37a3d2f0f8b1f48324228a722176b02a0828ff34f1",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "settings",
+      "title": "Settings",
+      "file": "settings-1.2.0-fire-tv.png",
+      "sha256": "09551d35d2c47188332e7b274a123942710e8d059304e4d0cd0f6e3b541b8d5f",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    },
+    {
+      "route": "updates",
+      "title": "About and update check",
+      "file": "updates-1.2.0-fire-tv.png",
+      "sha256": "83dfc88c764edc5a583c86d19b06072482611081ae4b20dde3aae9ab3f071ecc",
+      "width": 1920,
+      "height": 1080,
+      "source": "Unretouched native physical Fire TV capture using the public starter catalog"
+    }
+  ]
+}

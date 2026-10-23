@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_iptv/core/providers/theme_providers.dart';
+import 'package:open_iptv/core/providers/channel_providers.dart';
+import 'package:open_iptv/core/services/home_channel_cards.dart';
 import 'package:open_iptv/core/services/cast_service.dart';
 import 'package:open_iptv/core/services/auto_refresh_service.dart';
 import 'package:open_iptv/core/services/pip_service.dart';
@@ -48,7 +50,8 @@ class OpenIPTVApp extends ConsumerStatefulWidget {
   ConsumerState<OpenIPTVApp> createState() => _OpenIPTVAppState();
 }
 
-class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
+class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp>
+    with WidgetsBindingObserver {
   late final GoRouter _router;
   final _tooltipController = InfoTooltipController();
   bool _dbReady = false;
@@ -57,11 +60,20 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
   // True while multiple profiles exist and the user hasn't picked one yet
   // this session.
   bool _needsProfilePick = false;
+  Timer? _homeCardTimer;
+  int _homeCardRevision = 0;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _router = _buildRouter();
+    _router.routeInformationProvider.addListener(_scheduleHomeCards);
+    if (PlatformHelper.isTVDevice) {
+      HomeChannelCards.channel.setMethodCallHandler((call) async {
+        if (call.method == 'linkAvailable') await _openHomeChannel();
+      });
+    }
     _openDb();
   }
 
@@ -167,11 +179,86 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
         _dbReady = true;
         _needsProfilePick = needsPick;
       });
+      _scheduleHomeCards();
+      WidgetsBinding.instance.addPostFrameCallback((_) => _openHomeChannel());
+    }
+  }
+
+  void _scheduleHomeCards() {
+    if (!PlatformHelper.isTVDevice || !_dbReady || !mounted) return;
+    final revision = ++_homeCardRevision;
+    _homeCardTimer?.cancel();
+    _homeCardTimer = Timer(const Duration(milliseconds: 250), () async {
+      try {
+        final prefs = await ref.read(appPreferencesProvider.future);
+        final profile = await ref.read(activeProfileProvider.future);
+        final channels = await ref
+            .read(appDatabaseProvider)
+            .getAllChannels(profileId: profile?.id);
+        if (!mounted || revision != _homeCardRevision) return;
+        await HomeChannelCards.sync(_needsProfilePick
+            ? const []
+            : homeChannelCards(channels, profile, prefs));
+      } catch (error) {
+        debugPrint('Home cards refresh unavailable: ${error.runtimeType}');
+      }
+    });
+  }
+
+  Future<void> _openHomeChannel() async {
+    if (!mounted || !_dbReady || _needsProfilePick) return;
+    final link = await HomeChannelCards.takePendingLink();
+    final id = homeChannelId(link);
+    if (id == null || !mounted) return;
+    final prefs = await ref.read(appPreferencesProvider.future);
+    final profile = await ref.read(activeProfileProvider.future);
+    final channel = await ref.read(appDatabaseProvider).getChannelById(id);
+    if (!mounted) return;
+    if (channel == null || !canOpenHomeChannel(channel, profile, prefs)) {
+      _router.go('/live');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final context = _rootNavigatorKey.currentContext;
+        if (context != null) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:
+                Text('This channel is no longer available in this profile.'),
+          ));
+        }
+      });
+      return;
+    }
+    final extra = <String, dynamic>{
+      'streamUrl': channel.streamUrl,
+      'title': channel.name,
+      'contentId': channel.id,
+      'contentType': 'channel',
+    };
+    if (_router.routeInformationProvider.value.uri.path == '/player') {
+      ref.read(playbackServiceProvider).markTransitioning();
+      unawaited(_router.pushReplacement('/player', extra: extra));
+    } else {
+      unawaited(_router.push('/player', extra: extra));
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _scheduleHomeCards();
+      unawaited(_openHomeChannel());
+    } else if (state == AppLifecycleState.inactive) {
+      _scheduleHomeCards();
     }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _homeCardTimer?.cancel();
+    _router.routeInformationProvider.removeListener(_scheduleHomeCards);
+    if (PlatformHelper.isTVDevice) {
+      HomeChannelCards.channel.setMethodCallHandler(null);
+    }
     _tooltipController.dispose();
     super.dispose();
   }
@@ -258,9 +345,9 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
               ],
             ),
             GoRoute(
-          path: '/search',
-          builder: (_, __) => const SearchScreen(),
-        ),
+              path: '/search',
+              builder: (_, __) => const SearchScreen(),
+            ),
             // A tab since 0.12.1 (the gear in the top corner confused
             // people); its pages stay inside the shell, under the nav.
             GoRoute(
@@ -328,6 +415,9 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
   @override
   Widget build(BuildContext context) {
     final accent = ref.watch(accentColorProvider);
+    ref.listen(allChannelsProvider, (_, __) => _scheduleHomeCards());
+    ref.listen(activeProfileProvider, (_, __) => _scheduleHomeCards());
+    ref.listen(activeSourceIdProvider, (_, __) => _scheduleHomeCards());
 
     if (!_dbReady) {
       if (_startupError != null) {
@@ -378,7 +468,12 @@ class _OpenIPTVAppState extends ConsumerState<OpenIPTVApp> {
         darkTheme: AppTheme.dark(accent),
         themeMode: ThemeMode.dark,
         home: ProfilePickerScreen(
-          onPicked: () => setState(() => _needsProfilePick = false),
+          onPicked: () {
+            setState(() => _needsProfilePick = false);
+            _scheduleHomeCards();
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _openHomeChannel());
+          },
         ),
       );
     }
@@ -526,8 +621,7 @@ class _ShellState extends State<_Shell> with WidgetsBindingObserver {
   // navigator above them).
   bool _inShellPage(FocusNode f) {
     final c = f.context;
-    return c != null &&
-        Navigator.maybeOf(c) == _shellNavigatorKey.currentState;
+    return c != null && Navigator.maybeOf(c) == _shellNavigatorKey.currentState;
   }
 
   bool _focusContent() {
@@ -752,7 +846,6 @@ class _TvNavRail extends StatefulWidget {
 }
 
 class _TvNavRailState extends State<_TvNavRail> {
-
   // Up/Down move between rail items only. Left to Flutter's directional
   // search, Down from an item could land in a *covered* page of the shell
   // navigator (e.g. the Live TV home under a category page) — invisible

@@ -7,6 +7,7 @@
 - [Integrations and upstream attribution](integrations.md)
 - [Native screenshots and provenance](screenshots.md)
 - [Release notes](../CHANGELOG.md)
+- [1.2.0 home cards and upgrade guide](releases/v1.2.0.md)
 - [1.1.1 upgrade and verification](releases/v1.1.1.md)
 
 ## Upstream reference documents
